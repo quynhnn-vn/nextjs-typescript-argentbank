@@ -11,8 +11,10 @@ interface LinkProps {
 export default function Link(props: LinkProps) {
   const { href, children, className, otherProps } = props;
   return (
-    <NextLink href={href} className={className}>
-      <a {...otherProps}>{children}</a>
+    <NextLink href={href}>
+      <a className={className} {...otherProps}>
+        {children}
+      </a>
     </NextLink>
   );
 }

@@ -1,42 +1,34 @@
 import { NextPage } from "next";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import RouteGuard from "../src/components/RouteGuard";
 import UserProfile from "../src/components/UserProfile";
+import { useAppDispatch, useAppSelector } from "../src/hooks/hooks";
 import { postUserProfile } from "../src/shared/apis";
-import { selectToken } from "../src/store/features/auth/authSlice";
-import { UserProfileType } from "../src/types/types";
+import { logout, selectToken } from "../src/store/features/auth/authSlice";
+import { setUserProfile } from "../src/store/features/user/userSlice";
 
 const User: NextPage = () => {
-  const [activeUser, setActiveUser] = useState<UserProfileType>({
-    email: "",
-    firstName: "",
-    lastName: "",
-    createdAt: "",
-    updatedAt: "",
-    id: "",
-  });
-
-  const token = useSelector(selectToken);
-  const router = useRouter();
+  const token = useAppSelector(selectToken);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    let sentToken = token;
-    postUserProfile(sentToken)
+    postUserProfile(token)
       .then((response) => {
-        if (response.status === 200) {
-          setActiveUser(response.body);
-        } else {
-          router.push("/log-in");
+        if (response.status == 200) {
+          dispatch(setUserProfile(response.body));
+        }
+        // redirect to log in if user not exist
+        else {
+          dispatch(logout());
         }
       })
       .catch((error) => console.log(error));
-  }, [token, router]);
+  }, [token, dispatch]);
 
   return (
     <RouteGuard>
-      <UserProfile user={activeUser} />
+      <UserProfile />
     </RouteGuard>
   );
 };

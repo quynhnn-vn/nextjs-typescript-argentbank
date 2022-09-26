@@ -1,10 +1,12 @@
+import { getLocalToken, parseJwt } from "./../../../shared/helpers";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 import Router from "next/router";
-import { AppDispatch, AppState } from "../../store";
+import { AppState } from "../../store";
 
 interface AuthState {
   token: string;
+  expirationTime: number;
 }
 
 interface AuthPayload {
@@ -14,12 +16,7 @@ interface AuthPayload {
 
 const initialState: AuthState = {
   token: "",
-};
-
-const loginAndRedirect = (action: PayloadAction<AuthPayload>) => {
-  return (dispatch: AppDispatch) => {
-    dispatch(login(action.payload));
-  };
+  expirationTime: 0,
 };
 
 export const authSlice = createSlice({
@@ -33,18 +30,21 @@ export const authSlice = createSlice({
         const localToken = localStorage.getItem("token");
         if (localToken !== token) {
           localStorage.setItem("token", token);
+          console.log(parseJwt(token));
         }
       } else {
         localStorage.removeItem("token");
+        localStorage.removeItem("expiration-time");
       }
     },
     logout: (state: AuthState) => {
       state.token = "";
       localStorage.removeItem("token");
+      localStorage.removeItem("expiration-time");
       Router.push("/log-in");
     },
   },
-  // Special reducer for hydrating the state. Special case for next-redux-wrapper
+  // special reducer for hydrating the state. Special case for next-redux-wrapper
   extraReducers: {
     [HYDRATE]: (state, action) => {
       return {
@@ -57,6 +57,7 @@ export const authSlice = createSlice({
 
 export const { login, logout } = authSlice.actions;
 
-export const selectToken = (state: AppState) => state.auth.token;
+export const selectToken = (state: AppState) =>
+  state.auth.token || getLocalToken();
 
 export default authSlice.reducer;
