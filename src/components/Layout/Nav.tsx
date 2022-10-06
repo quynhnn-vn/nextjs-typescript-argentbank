@@ -33,14 +33,12 @@ export default function Nav(): JSX.Element {
         </>
       </Link>
       {!token ? (
-        <div>
-          <Link href="/log-in" className="main-nav-item">
-            <>
-              <i className="fa fa-user-circle"></i>
-              Sign In
-            </>
-          </Link>
-        </div>
+        <Link href="/log-in" className="main-nav-item">
+          <>
+            <i className="fa fa-user-circle"></i>
+            Sign In
+          </>
+        </Link>
       ) : (
         <RouteGuard>
           <div>
@@ -50,10 +48,16 @@ export default function Nav(): JSX.Element {
                 {user.firstName}
               </>
             </Link>
-            <a onClick={handleLogout} className="main-nav-item">
-              <i className="fa fa-sign-out"></i>
-              Sign Out
-            </a>
+            <Link
+              href="/log-in"
+              className="main-nav-item"
+              onClick={handleLogout}
+            >
+              <>
+                <i className="fa fa-sign-out"></i>
+                Sign Out
+              </>
+            </Link>
           </div>
         </RouteGuard>
       )}

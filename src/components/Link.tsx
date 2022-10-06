@@ -5,14 +5,15 @@ interface LinkProps {
   href: string;
   children: JSX.Element;
   className: string;
-  otherProps?: any;
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
 }
 
 export default function Link(props: LinkProps) {
-  const { href, children, className, otherProps } = props;
+  const { href, children, className, onClick } = props;
+
   return (
     <NextLink href={href}>
-      <a className={className} {...otherProps}>
+      <a className={className} onClick={onClick}>
         {children}
       </a>
     </NextLink>

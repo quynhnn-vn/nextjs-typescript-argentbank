@@ -30,7 +30,7 @@ export const authSlice = createSlice({
         const localToken = localStorage.getItem("token");
         if (localToken !== token) {
           localStorage.setItem("token", token);
-          console.log(parseJwt(token));
+          //   console.log(parseJwt(token));
         }
       } else {
         localStorage.removeItem("token");

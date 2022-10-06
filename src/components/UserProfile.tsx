@@ -30,7 +30,7 @@ export default function UserProfile() {
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewName((prev: NewName) => ({
       ...prev,
-      [e.target.name as keyof NewName]: String(e.target.value).trim(),
+      [e.target.name as keyof NewName]: e.target.value,
     }));
   };
 
