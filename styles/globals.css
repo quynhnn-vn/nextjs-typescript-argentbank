@@ -23,3 +23,11 @@ h3 {
   margin: unset;
   margin-block: unset;
 }
+
+ul {
+  padding-inline-start: unset;
+}
+
+li {
+  list-style-type: none;
+}

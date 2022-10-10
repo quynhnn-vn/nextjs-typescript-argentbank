@@ -41,7 +41,7 @@ export const authSlice = createSlice({
       state.token = "";
       localStorage.removeItem("token");
       localStorage.removeItem("expiration-time");
-      Router.push("/log-in");
+      Router.push("/");
     },
   },
   // special reducer for hydrating the state. Special case for next-redux-wrapper

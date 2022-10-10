@@ -24,7 +24,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 5px 20px;
+  margin: 5px 20px;
 }
 
 .main-nav a {
@@ -35,10 +35,18 @@
 .main-nav a.router-link-exact-active {
   color: #42b983;
 }
-
+.main-nav-container {
+  display: flex;
+  align-items: flex-end;
+}
 .main-nav-item {
   text-decoration: none;
-  margin-right: 0.5rem;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.main-nav-item i {
+  margin-right: 5px;
 }
 
 .main-nav-item:hover {
@@ -48,6 +56,8 @@
 .main-nav-logo {
   display: flex;
   align-items: center;
+  max-width: 50%;
+  cursor: pointer;
 }
 
 .main-nav-logo-image {
@@ -257,6 +267,9 @@
 .header {
   color: #fff;
   padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .header h1 {
   margin-bottom: 10px;
@@ -293,7 +306,7 @@
   display: flex;
   gap: 20px;
   justify-content: center;
-  margin-bottom: 20px;
+  width: 80%;
 }
 .edit-name-input {
   border: 1px solid #b8c4ce;

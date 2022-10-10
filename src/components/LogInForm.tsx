@@ -104,6 +104,7 @@ export default function LogInForm(): JSX.Element {
                     validate={(value: string) =>
                       validateValue(value, field.placeholder)
                     }
+                    autoComplete="new-country-area"
                   />
                   {errors[field.name as keyof FormValues] &&
                     touched[field.name as keyof FormValues] && (

@@ -7,23 +7,26 @@ import { useAppDispatch, useAppSelector } from "../src/hooks/hooks";
 import { postUserProfile } from "../src/shared/apis";
 import { logout, selectToken } from "../src/store/features/auth/authSlice";
 import { setUserProfile } from "../src/store/features/user/userSlice";
+import useSWR from "swr";
 
 const User: NextPage = () => {
   const token = useAppSelector(selectToken);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    postUserProfile(token)
-      .then((response) => {
-        if (response.status == 200) {
-          dispatch(setUserProfile(response.body));
-        }
-        // redirect to log in if user not exist
-        else {
-          dispatch(logout());
-        }
-      })
-      .catch((error) => console.log(error));
+    if (token) {
+      postUserProfile(token)
+        .then((response) => {
+          if (response.status == 200) {
+            dispatch(setUserProfile(response.body));
+          }
+          // redirect to log in if user not exist
+          else {
+            dispatch(logout());
+          }
+        })
+        .catch((error) => console.log(error));
+    }
   }, [token, dispatch]);
 
   return (
@@ -32,4 +35,5 @@ const User: NextPage = () => {
     </RouteGuard>
   );
 };
+
 export default User;

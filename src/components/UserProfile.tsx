@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { putUserProfile } from "../shared/apis";
 import { selectToken } from "../store/features/auth/authSlice";
@@ -19,9 +19,16 @@ export default function UserProfile() {
 
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [newName, setNewName] = useState<NewName>({
-    firstName: user.firstName || "",
-    lastName: user.lastName || "",
+    firstName: "",
+    lastName: "",
   });
+
+  useEffect(() => {
+    setNewName({
+      firstName: user.firstName,
+      lastName: user.lastName,
+    });
+  }, [user.firstName, user.lastName]);
 
   const handleClickEditName = () => {
     setIsEditOpen((prev: boolean) => !prev);

@@ -14,7 +14,3 @@ export const parseJwt = (token: string) => {
     return null;
   }
 };
-
-// if (decodedJwt.exp * 1000 < Date.now()) {
-//   props.logOut();
-// }

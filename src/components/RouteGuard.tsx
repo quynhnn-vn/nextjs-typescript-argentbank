@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectToken } from "../store/features/auth/authSlice";
 
@@ -17,12 +17,12 @@ export default function RouteGuard(props: RouteGuardProps) {
   const authCheck = useCallback(
     (url: string) => {
       // redirect to login page if accessing a private page and not logged in
-      const publicPaths = ["/log-in"];
+      const publicPaths = ["/sign-in"];
       const path = url.split("?")[0];
       if (!token && !publicPaths.includes(path)) {
         setIsAuth(false);
         router.push({
-          pathname: "/log-in",
+          pathname: "/sign-in",
           query: { returnUrl: router.asPath },
         });
       } else {
