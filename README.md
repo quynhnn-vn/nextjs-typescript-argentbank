@@ -12,8 +12,9 @@ First, you need to download and install the backend :
 Then, you can download this project and run : 
 
 ```bash
+# Install dependencies
 npm install
-# and
+# Start local client
 npm run dev
 ```
 
