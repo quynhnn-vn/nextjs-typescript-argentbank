@@ -1,16 +1,20 @@
 
-# OpenClassrooms project 13: Agent Bank
+# OpenClassrooms project 13: Argent Bank
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 
-First, run the development server:
+First, you need to download and install the backend :
+
+[https://github.com/OpenClassrooms-Student-Center/Project-10-Bank-API](https://github.com/OpenClassrooms-Student-Center/Project-10-Bank-API)
+
+Then, you can download this project and run : 
 
 ```bash
+npm install
+# and
 npm run dev
-# or
-yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
