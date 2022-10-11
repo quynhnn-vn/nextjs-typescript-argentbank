@@ -1,0 +1,263 @@
+openapi: 3.0.3
+info:
+  title: Argent Bank API documentation
+  description: |-
+    Contains all proposed API endpoints for transactions
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+servers:
+  - url: localhost:3001/api/v1
+tags:
+  - name: transactions
+paths:
+  /user/transactions:
+    get:
+      tags:
+        - transactions
+      summary:  Retrieve transactions by page and time period
+      description: Retrieve transactions by page and time period
+      operationId: updatePet
+      parameters:
+        - name: page_number
+          in: query
+          required: true
+          description: Page number to collect the transactions.
+          schema: 
+            type: integer
+            example: 1
+        - name: start_date
+          in: query
+          description: Start date to collect the transactions.
+          schema: 
+            type: string
+            format: date-time
+            example: '2022-09-04'
+        - name: end_date
+          in: query
+          description: End date to collect the transactions.
+          schema: 
+            type: string
+            format: date-time
+            example: '2022-10-04'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transactions'
+        '400':
+          description: Bad request        
+        '404':
+          description: Transaction not found
+        '405':
+          description: Input validation failure
+      security:
+        - Bearer: []
+    post:
+      tags:
+        - transactions
+      summary: Create a new transaction
+      description: Create a new transaction
+      requestBody:
+        description: New transaction
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewTransaction'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'          
+        '400':
+          description: Bad request        
+        '404':
+          description: Transaction not found
+        '405':
+          description: Input validation failure
+      security:
+        - Bearer: []
+  /user/transactions/{transactionId}:
+    get:
+      tags:
+        - transactions
+      summary: Retrieve details of a transaction
+      description: Retrieve details of a transaction
+      parameters:
+        - name: transactionId
+          in: path
+          description: Numeric id of the transaction
+          required: true
+          schema:
+            type: number
+            example: 1
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Bad request        
+        '404':
+          description: Transaction not found
+        '405':
+          description: Input validation failure
+      security:
+        - Bearer: []
+    put:
+      tags:
+        - transactions
+      summary: Update details of a transaction
+      description: Update details of a transaction
+      parameters:
+        - name: transactionId
+          in: path
+          description: Numeric id of the transaction
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Updated transaction details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatedTransaction'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                  $ref: '#/components/schemas/Transaction'          
+        '400':
+          description: Bad request        
+        '404':
+          description: Transaction not found
+        '405':
+          description: Input validation failure
+      security:
+        - Bearer: []
+    patch:
+      tags:
+        - transactions
+      summary: Archive a transaction
+      description: Archive a transaction
+      parameters:
+        - name: transactionId
+          in: path
+          description: Numeric id of the transaction
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Successful operation
+        '400':
+          description: Bad request  
+        '404':
+          description: Transaction not found
+        '405':
+          description: Input validation failure
+      security:
+        - Bearer: []
+components:
+  schemas:
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        date:
+          type: string
+          format: date-time
+          example: '2022-09-01'
+        description:
+          type: string
+          example: "Golden Sun Bakery"
+        amount:
+          type: number
+          format: float
+          example: 5
+        currency:
+          type: string
+          example: EUR
+        balance:
+          type: number
+          format: float
+          example: 2082.79
+        type:
+          type: string
+          example: "Electronic"
+        category:
+          type: string
+          example: "Food"
+        notes:
+          type: string
+          example: ""
+    NewTransaction:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+          example: '2022-09-01'
+        description:
+          type: string
+          example: "Golden Sun Bakery"
+        amount:
+          type: number
+          format: float
+          example: 5
+        currency:
+          type: string
+          example: EUR
+        type:
+          type: string
+          example: "Electronic"
+        category:
+          type: string
+          example: "Food"
+        notes:
+          type: string
+          example: ""
+    UpdatedTransaction: 
+      type: object
+      properties:
+        category:
+          type: string
+          example: "Food"
+        notes:
+          type: string
+          example: ""
+    Transactions:
+      type: object
+      properties:
+        current_page:
+          type: number
+          format: int64
+          example: 1
+        total_pages:
+          type: number
+          format: int64
+          example: 10
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Transaction'
+  securitySchemes:
+    Bearer:
+      type: apiKey
+      name: Authorization
+      in: header
