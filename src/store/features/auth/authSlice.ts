@@ -22,7 +22,7 @@ const initialState: AuthState = {
 
 export const logout = () => {
   return (dispatch: AppDispatch) => {
-    dispatch(logoutAuth());
+    dispatch(resetAuth());
     dispatch(resetUserProfile());
   };
 };
@@ -44,7 +44,7 @@ export const authSlice = createSlice({
         localStorage.removeItem("expiration-time");
       }
     },
-    logoutAuth: (state: AuthState) => {
+    resetAuth: (state: AuthState) => {
       state.token = "";
       localStorage.removeItem("token");
       localStorage.removeItem("expiration-time");
@@ -62,7 +62,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { login, logoutAuth } = authSlice.actions;
+export const { login, resetAuth } = authSlice.actions;
 
 export const selectToken = (state: AppState) =>
   state.auth.token || getLocalToken();
