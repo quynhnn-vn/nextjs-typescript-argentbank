@@ -1,13 +1,11 @@
 import { NextPage } from "next";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
 import RouteGuard from "../src/components/RouteGuard";
 import UserProfile from "../src/components/UserProfile";
 import { useAppDispatch, useAppSelector } from "../src/hooks/hooks";
 import { postUserProfile } from "../src/shared/apis";
 import { logout, selectToken } from "../src/store/features/auth/authSlice";
 import { setUserProfile } from "../src/store/features/user/userSlice";
-import useSWR from "swr";
 
 const User: NextPage = () => {
   const token = useAppSelector(selectToken);

@@ -1,8 +1,9 @@
-import { getLocalToken, parseJwt } from "./../../../shared/helpers";
+import { getLocalToken } from "./../../../shared/helpers";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 import Router from "next/router";
-import { AppState } from "../../store";
+import { AppDispatch, AppState } from "../../store";
+import { resetUserProfile } from "../user/userSlice";
 
 interface AuthState {
   token: string;
@@ -19,6 +20,13 @@ const initialState: AuthState = {
   expirationTime: 0,
 };
 
+export const logout = () => {
+  return (dispatch: AppDispatch) => {
+    dispatch(logoutAuth());
+    dispatch(resetUserProfile());
+  };
+};
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -30,14 +38,13 @@ export const authSlice = createSlice({
         const localToken = localStorage.getItem("token");
         if (localToken !== token) {
           localStorage.setItem("token", token);
-          //   console.log(parseJwt(token));
         }
       } else {
         localStorage.removeItem("token");
         localStorage.removeItem("expiration-time");
       }
     },
-    logout: (state: AuthState) => {
+    logoutAuth: (state: AuthState) => {
       state.token = "";
       localStorage.removeItem("token");
       localStorage.removeItem("expiration-time");
@@ -55,7 +62,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logoutAuth } = authSlice.actions;
 
 export const selectToken = (state: AppState) =>
   state.auth.token || getLocalToken();
